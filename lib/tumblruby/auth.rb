@@ -1,14 +1,13 @@
 class Tumblruby
   class Auth
+    attr_reader :user,:tumblelog
     def initialize email,pass
       auth = Tumblruby::Request.login email,pass
       @user = User.new auth["tumblr"]["user"]
       @tumblelog = Tumblelog.new auth["tumblr"]["tumblelog"]
     end
-    attr_reader :user,:tumblelog
 
     class Template
-
       def initialize hash
         @hash = hash
         @convert_targets = set_convert_targets
@@ -24,21 +23,21 @@ class Tumblruby
 
       def set_attributes
         @hash.each do |k,v|
-          self.send "#{k}=",v
+          self.__send__ "#{k}=",v
         end
       end
 
       def convert_attributes
         unless @convert_targets.empty?
           @convert_targets.each do |key,action|
-            attribute = self.send key
+            attribute = self.__send__ key
             unless key.nil?
               if action["class"]
-                new_attribute = action["class"].send action["method"],attribute
+                new_attribute = action["class"].__send__ action["method"],attribute
               else
-                new_attribute = attribute.send action["method"]
+                new_attribute = attribute.__send__ action["method"]
               end
-              self.send "#{key}=",new_attribute
+              self.__send__ "#{key}=",new_attribute
             end
           end
         end
@@ -55,7 +54,7 @@ class Tumblruby
           false
         end
       end
-      
+
       private
 
       def set_convert_targets
@@ -83,6 +82,5 @@ class Tumblruby
         }
       end
     end
-
   end
 end

@@ -13,7 +13,7 @@ describe Tumblruby do
   end
 
   describe '.new' do
-    it 'get user attributes' do
+    it 'gets user attributes' do
       @tum.auth.user.can_upload_audio.should be_instance_of Fixnum
       @tum.auth.user.can_upload_aiff.should be_instance_of Fixnum
       @tum.auth.user.can_upload_video.should be_instance_of Fixnum
@@ -21,7 +21,7 @@ describe Tumblruby do
       @tum.auth.user.vimeo_login_url.should be_instance_of URI::HTTP
     end
 
-    it 'get tumblelog attributes' do
+    it 'gets tumblelog attributes' do
       @tum.auth.tumblelog.title.should be_instance_of String
       @tum.auth.tumblelog.type.should be_instance_of Symbol
       @tum.auth.tumblelog.name.should be_instance_of String
